@@ -21,9 +21,11 @@ def forward(self, q,k v, mask=None):
     batch_size = q.size(0)
 
     # Linear projections
-    q =self.wq(q) #batch_size, seq_len, d_model)
-    k = k.view(batch_size, -1, self.num_heads, Self.head_dim).transpose(1, 2)
-    v = k.view(batch_size, -1, self.num_heads, self.head_dim).transpose(1, 2)
+    q = self.wq(q) #batch_size, seq_len, d_model)
+    k = self.wk(k) #batch_size, seq_len, d_model)
+    v = self.wv(v) #batch_size, seq_len, d_model)
+
+
 
     
 
