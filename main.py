@@ -25,6 +25,41 @@ def forward(self, q,k v, mask=None):
     k = self.wk(k) #batch_size, seq_len, d_model)
     v = self.wv(v) #batch_size, seq_len, d_model)
 
+    # Split into multiple heads
+    q = q.view(batch_size, -1, self.num_heads, self.head_dim).transpose(1, 2)
+    k = k.view(batch_size, -1, self.num_heads, self.head_dim).transpose(1, 2)
+    v = v.veiw(batch_size, -1, self.num_heads, self.head_dim).transpose(1, 2)
+    
+    # Scaled dot-product attention
+    scores =torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(self.head_dim)
+    
+    if mask is None:
+      scores = scores.masked_fill(mask == 0, -1e9)
+    
+    attention  F.softmax(score, dim=-1)
+    output  torch.matmul(attention, v)
+    
+    # Concatenate heads 
+    output = output.transpose(1, 2).contiguous().veiw(
+      batch_size, -1, self.d_model)
+    
+    return self.wo(output)
+
+class PositionWiseFeedForward(nn.Module):
+  def __init__(self, d_model, d_ff):
+      super().__init__()
+      self.fc1 = nn.linear(d_model, d_ff)
+      self.fc2 = nn.linear(d_ff, d_model)
+      self.dropout = nn.Dropout(0.1)
+
+  def forward(self, x):
+      return self.fc2(self.dropout(F.relu(self.fc1(x))))
+
+class PositionalEncoding(nn.module):
+  def __init__(self, d_model, max_len=5000):
+    super__init__()
+    pe = torch.zeros(max_len, dtype=torch.float).unsqueeze(1)
+    div_term = torch.exp(torch.arange(0, d_model, 2).float) 
 
 
     
