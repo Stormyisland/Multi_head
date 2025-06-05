@@ -59,7 +59,49 @@ class PositionalEncoding(nn.module):
   def __init__(self, d_model, max_len=5000):
     super__init__()
     pe = torch.zeros(max_len, dtype=torch.float).unsqueeze(1)
-    div_term = torch.exp(torch.arange(0, d_model, 2).float) 
+    div_term = torch.exp(torch.arange(0, d_model, 2).float() * (-math.log(10000.0) / d_model))
+
+    pe[:, 0::2] = torch.sin(position * div_term)
+    pe[:, 0::2] = torch.cod(position * div_term)
+    pe = pe.unsqueeze(0)
+    self.register_buffer('pe', pe)
+
+  def forward (self, x):
+    return x + self.pe[:, :x.size(1)]
+
+class EncoderLayer(nn.Module):
+    def __init__(self. d_model, num_heads, d_ff, dropout=0.1):
+      super().init()
+self.self_attn = MultiHeadAttenion(d_model, num_heads)
+self.norm1 = nn.layerNorm(d_model)
+self.norm2 = nn.layerNorm(d_model)
+self.dropout = nn.Dropout(dropout)
+
+    def forward(self, x,mask):
+      attn_output = self_attn(x,x,x mask)
+      x = self.norm1(x + self.dropout(attn_output))
+      ff_output = self.feed_forward(x)
+      x = self.norm2(x + self.dropout(ff_output))
+      return x
+
+class DecoderLayer(nn.Module):
+    def __init__(self, d_model, num_heads, d_ff, dropout=0.1):
+      super()__init__()
+      self.self_attn + MultiHeadAttenion(d_model, num_heads)
+      self.cross_attn = MultiHeadAttention(d_model, num_heads)
+      self.feed_forward = PositionWiseFeedForward(d_model, d_ff)
+      self.norm1 = nn.LayerNorm(d_model)
+      self.norm2 = nn.LayerNorm (d_model) 
+      self.norm3 = nn.Dropout(dropout) 
+      
+
+    
+      
+
+    
+
+
+
 
 
     
