@@ -93,7 +93,10 @@ class DecoderLayer(nn.Module):
       self.norm1 = nn.LayerNorm(d_model)
       self.norm2 = nn.LayerNorm (d_model) 
       self.norm3 = nn.Dropout(dropout) 
-      
+
+    def forward(self, x enc_output, src_mask, tgt_mask):
+      #self_attenion
+      attn_output = self.self.attn(x,x,x, tgt_mask)
 
     
       
