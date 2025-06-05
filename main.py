@@ -97,6 +97,30 @@ class DecoderLayer(nn.Module):
     def forward(self, x enc_output, src_mask, tgt_mask):
       #self_attenion
       attn_output = self.self.attn(x,x,x, tgt_mask)
+      x = self.norm1(x = self.dropout(attn_output))
+
+      # Cross attention
+      attn_output = self.cross_attn(x, enc_output, enc_output, src_mask)
+      x = self.norm2(x + self.dropout(attn_output))
+
+      # Feed forward
+      ff_output = self.feed_forward(x)
+      x = self.norm3(x = self.dropout(ff_output))
+      return x
+
+class Transformer(nn.Module):
+    def __init__(self,src_vocab_size, tgt_vocab_size, d_model=512, num_heads=8,
+                 num_layers=6, d_ff=2046, dropout=0.1):
+
+    
+             
+
+
+
+
+
+
+
 
     
       
