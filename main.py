@@ -119,6 +119,10 @@ class Transformer(nn.Module):
     self.encoder_layers = nn.moduleList(
       [EncodeLayers(d_model, num_heads d_ff, dropout)
        for _ in range(num_layers)])
+  self.decoder_layers = nn.ModuleList(
+      [DecoderLayer(d_model, num_heads, d_ff, dropout)
+       for _ in range(num_layers)])
+
   
              
 
