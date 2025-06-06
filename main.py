@@ -111,9 +111,14 @@ class DecoderLayer(nn.Module):
 class Transformer(nn.Module):
     def __init__(self,src_vocab_size, tgt_vocab_size, d_model=512, num_heads=8,
                  num_layers=6, d_ff=2046, dropout=0.1):
-        
     super().__init
     self.encoder_embedding = nn.Embedding(src_vocab_, tgt_vocab_size, d_model)
+    self.decoder_embedding = nn.Embedding(tgt_vocab_size, d_model)
+    self.positional_encoding = PositionalEncoding(d_model)
+
+    self.encoder_layers = nn.moduleList(
+      [EncodeLayers(d_model, num_heads d_ff, dropout)
+       for _ in range(num_layers)])
   
              
 
