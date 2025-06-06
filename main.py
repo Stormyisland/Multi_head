@@ -113,7 +113,8 @@ class Transformer(nn.Module):
                  num_layers=6, d_ff=2046, dropout=0.1):
         
     super().__init
-    self.encoder_embedding
+    self.encoder_embedding = nn.Embedding(src_vocab_, tgt_vocab_size, d_model)
+  
              
 
 
