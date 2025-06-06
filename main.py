@@ -111,8 +111,9 @@ class DecoderLayer(nn.Module):
 class Transformer(nn.Module):
     def __init__(self,src_vocab_size, tgt_vocab_size, d_model=512, num_heads=8,
                  num_layers=6, d_ff=2046, dropout=0.1):
-
-    
+        
+    super().__init
+    self.encoder_embedding
              
 
 
