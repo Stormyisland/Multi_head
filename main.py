@@ -125,8 +125,28 @@ class Transformer(nn.Module):
   
     self.fc = nn.Linear(d_model, tgt_vocab_size) 
     self.dropout = nn.Dropout(dropout)
+
+    # Encoder 
+    src_embedding = self.dropout(self.positional _encodeing(self.encoder_emmbeding(src)))
+    enc_output = src_emmbedding
+    for enc_layer in self.encoder_layers:
+        enc_output= enc_layer(enc_output, src_mask)
+
+    # Decoder
+    tgt_embedded = self.dropout(self.positonal_encoding(self.decoder_emmbeding(tgt)))
+    dec_output = tgt_embedded
+    for dec_layer in self.decoder_laters:
+        dec_output = dec_layer(dec-output, enc_output, src_mask, tgt_mask)
+
+    return self.fc(dec_output)
+
+def create_padding_mask_mask(seq):
   
-             
+
+  
+
+
+               
 
 
 
