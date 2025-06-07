@@ -140,7 +140,42 @@ class Transformer(nn.Module):
 
     return self.fc(dec_output)
 
-def create_padding_mask_mask(seq):
+def create_padding_mask(seq):
+    return (seq ! = 0).unsqueeze(1).unsqueeze(2)
+
+def create_look_ahead_mask(size):
+  mask = torch.triu(torch.ones(size, size), diagonal=1)
+  return mask == 0
+
+# Example usage
+if __name__=="__main__":
+  # Hyperparameters
+  src_vocab_size =5000
+  tgt_vocab_size =5000
+  d_model =512
+  num_heads = 8
+  num_layers = 6
+  d_ff = 2048
+  dropout = 0.1
+
+  #create model 
+  transformer = Transformer(src_vocab_size, tgt_vocab_size, d_model ,
+                            num_heads, num_layers, d_ff, dropout)
+
+  # Example inputs 
+  src = torch.randint(0, src_vocab_size, (32, 100)) # batch_size=32, seq_len=100
+  tgt = torch.randint(0, tgt_vocab_size, (32, 90)) # batch_size=32, seq_len=90
+
+  # Create masks
+  src_mask = creat_padding_mask(src)
+  tgt_mask = create_paddding_mask(tgt) & create_look_ahead_mask(tgt.size(1))
+
+Forward pass
+output = transform(src, tgt, src_mask, tgt_mask)
+print("Output shape:", output.shape) # Should be (32, 90 tgt_vocab_size)
+
+
+
   
 
   
