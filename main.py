@@ -123,7 +123,7 @@ class Transformer(nn.Module):
       [DecoderLayer(d_model, num_heads, d_ff, dropout)
        for _ in range(num_layers)])
 
-  
+  self.fc
              
 
 
